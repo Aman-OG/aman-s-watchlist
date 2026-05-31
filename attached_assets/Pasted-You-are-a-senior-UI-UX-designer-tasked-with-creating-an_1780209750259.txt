@@ -1,0 +1,499 @@
+You are a senior UI/UX designer tasked with creating an exceptionally beautiful, modern, premium-quality personal media tracking website.
+
+
+
+The website is called:
+
+
+
+"Aman's Watch Vault"
+
+
+
+The purpose is to showcase anime and TV series I have watched, my ratings, favorites, reviews, and statistics.
+
+
+
+## Design Philosophy
+
+
+
+The design should feel like a blend of:
+
+
+
+* Netflix
+
+* Letterboxd
+
+* MyAnimeList
+
+* IMDb
+
+* Apple TV
+
+* Modern SaaS dashboards
+
+
+
+The UI should look premium, elegant, cinematic, and highly polished.
+
+
+
+Avoid generic dashboard designs.
+
+
+
+Avoid boring card layouts.
+
+
+
+The design should feel memorable and unique.
+
+
+
+## Theme Support
+
+
+
+Implement:
+
+
+
+* Dark Theme
+
+* Light Theme
+
+
+
+Theme switching should be instant and smooth.
+
+
+
+Remember the user's preference.
+
+
+
+Dark mode should be the primary design focus.
+
+
+
+## Visual Style
+
+
+
+Design language:
+
+
+
+* Clean
+
+* Minimal
+
+* Premium
+
+* Cinematic
+
+* Modern
+
+* Glassmorphism where appropriate
+
+* Soft shadows
+
+* Subtle gradients
+
+* Excellent spacing
+
+* Professional typography
+
+
+
+The interface should feel expensive and carefully crafted.
+
+
+
+## Color System
+
+
+
+Dark Mode:
+
+
+
+* Rich dark backgrounds
+
+* Multiple surface layers
+
+* Soft accent colors
+
+* Excellent contrast
+
+
+
+Light Mode:
+
+
+
+* Clean white surfaces
+
+* Subtle shadows
+
+* Elegant muted colors
+
+
+
+Avoid overly saturated colors.
+
+
+
+Use accent colors sparingly.
+
+
+
+## Typography
+
+
+
+Use modern fonts such as:
+
+
+
+* Inter
+
+* Geist
+
+* Manrope
+
+
+
+Typography should create strong visual hierarchy.
+
+
+
+Large bold headings.
+
+
+
+Readable body text.
+
+
+
+Perfect spacing between sections.
+
+
+
+## Home Page
+
+
+
+Create a stunning landing experience.
+
+
+
+Include:
+
+
+
+### Hero Section
+
+
+
+Large title:
+
+
+
+"Aman's Watch Vault"
+
+
+
+Subtitle describing the collection.
+
+
+
+Animated statistics.
+
+
+
+Background effects.
+
+
+
+Cinematic atmosphere.
+
+
+
+### Featured Favorites Section
+
+
+
+Large visually appealing cards.
+
+
+
+Show:
+
+
+
+* Favorite Anime
+
+* Favorite Series
+
+
+
+Make them the centerpiece of the page.
+
+
+
+### Top 10 Section
+
+
+
+Beautiful ranking layout.
+
+
+
+Not a plain list.
+
+
+
+Should feel special.
+
+
+
+### Statistics Preview
+
+
+
+Modern dashboard-style cards.
+
+
+
+Animated counters.
+
+
+
+## Navigation
+
+
+
+Sticky navbar.
+
+
+
+Glass effect while scrolling.
+
+
+
+Theme toggle.
+
+
+
+Smooth animations.
+
+
+
+Elegant hover effects.
+
+
+
+Mobile responsive.
+
+
+
+## Media Cards
+
+
+
+Cards should feel premium.
+
+
+
+Include:
+
+
+
+* Poster
+
+* Title
+
+* Rating
+
+* Year
+
+
+
+On hover:
+
+
+
+* Scale slightly
+
+* Elevation effect
+
+* Glow effect
+
+* Smooth transitions
+
+
+
+Animations must feel smooth and expensive.
+
+
+
+## Detail Page
+
+
+
+When clicking a title:
+
+
+
+Create a cinematic experience.
+
+
+
+Include:
+
+
+
+* Large banner image
+
+* Poster
+
+* Metadata
+
+* Rating
+
+* Genres
+
+* Personal review
+
+
+
+Layout should resemble a streaming platform detail page.
+
+
+
+## Favorites Page
+
+
+
+This should be one of the most beautiful pages.
+
+
+
+Display favorites in a visually striking layout.
+
+
+
+Make favorites feel important and prestigious.
+
+
+
+## Statistics Page
+
+
+
+Use modern analytics-inspired cards.
+
+
+
+Display:
+
+
+
+* Total Anime
+
+* Total Series
+
+* Average Rating
+
+* Highest Rated Titles
+
+
+
+Cards should feel interactive.
+
+
+
+## Animations
+
+
+
+Use tasteful animations only.
+
+
+
+Examples:
+
+
+
+* Fade in
+
+* Slide up
+
+* Hover elevation
+
+* Smooth page transitions
+
+* Staggered card animations
+
+
+
+Avoid excessive motion.
+
+
+
+Everything should feel refined.
+
+
+
+## Mobile Experience
+
+
+
+The mobile design must be first-class.
+
+
+
+Not an afterthought.
+
+
+
+The site should look amazing on:
+
+
+
+* Phones
+
+* Tablets
+
+* Laptops
+
+* Desktop monitors
+
+
+
+## Final Goal
+
+
+
+The final website should make visitors immediately think:
+
+
+
+"Wow, this looks professionally designed."
+
+
+
+The design should be portfolio-quality, highly polished, visually memorable, and significantly better than a standard CRUD application.
+
+
+
+
+
+
+
+
+
+and not a single purple color in the UI

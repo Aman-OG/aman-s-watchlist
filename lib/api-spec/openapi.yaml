@@ -1,15 +1,18 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Aman's Watch Vault API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: media
+    description: Media item operations
+  - name: stats
+    description: Statistics operations
 paths:
   /healthz:
     get:
@@ -24,6 +27,210 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /media:
+    get:
+      operationId: listMedia
+      tags: [media]
+      summary: List all media items
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [anime, series]
+        - name: favorite
+          in: query
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [rating, year, title, rank]
+        - name: order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+      responses:
+        "200":
+          description: List of media items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MediaItem"
+    post:
+      operationId: createMedia
+      tags: [media]
+      summary: Create a new media item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaInput"
+      responses:
+        "201":
+          description: Created media item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaItem"
+
+  /media/top:
+    get:
+      operationId: getTopMedia
+      tags: [media]
+      summary: Get top 10 media items by rating
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: Top media items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MediaItem"
+
+  /media/favorites:
+    get:
+      operationId: getFavorites
+      tags: [media]
+      summary: Get all favorite media items
+      responses:
+        "200":
+          description: Favorite media items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MediaItem"
+
+  /media/{id}:
+    get:
+      operationId: getMedia
+      tags: [media]
+      summary: Get a single media item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Media item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateMedia
+      tags: [media]
+      summary: Update a media item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaUpdate"
+      responses:
+        "200":
+          description: Updated media item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteMedia
+      tags: [media]
+      summary: Delete a media item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /media/{id}/favorite:
+    patch:
+      operationId: toggleFavorite
+      tags: [media]
+      summary: Toggle favorite status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Updated media item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /stats:
+    get:
+      operationId: getStats
+      tags: [stats]
+      summary: Get aggregated watch vault statistics
+      responses:
+        "200":
+          description: Statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VaultStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +241,208 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    MediaItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+          enum: [anime, series]
+        year:
+          type: integer
+        poster:
+          type: ["string", "null"]
+        banner:
+          type: ["string", "null"]
+        rating:
+          type: ["number", "null"]
+        genres:
+          type: array
+          items:
+            type: string
+        synopsis:
+          type: ["string", "null"]
+        review:
+          type: ["string", "null"]
+        isFavorite:
+          type: boolean
+        rank:
+          type: ["integer", "null"]
+        episodes:
+          type: ["integer", "null"]
+        seasons:
+          type: ["integer", "null"]
+        status:
+          type: string
+          enum: [completed, watching, plan_to_watch, dropped]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - type
+        - year
+        - genres
+        - isFavorite
+        - status
+        - createdAt
+        - updatedAt
+
+    MediaInput:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          enum: [anime, series]
+        year:
+          type: integer
+        poster:
+          type: string
+        banner:
+          type: string
+        rating:
+          type: number
+          minimum: 0
+          maximum: 10
+        genres:
+          type: array
+          items:
+            type: string
+        synopsis:
+          type: string
+        review:
+          type: string
+        isFavorite:
+          type: boolean
+        rank:
+          type: integer
+        episodes:
+          type: integer
+        seasons:
+          type: integer
+        status:
+          type: string
+          enum: [completed, watching, plan_to_watch, dropped]
+      required:
+        - title
+        - type
+        - year
+
+    MediaUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          enum: [anime, series]
+        year:
+          type: integer
+        poster:
+          type: string
+        banner:
+          type: string
+        rating:
+          type: number
+          minimum: 0
+          maximum: 10
+        genres:
+          type: array
+          items:
+            type: string
+        synopsis:
+          type: string
+        review:
+          type: string
+        isFavorite:
+          type: boolean
+        rank:
+          type: integer
+        episodes:
+          type: integer
+        seasons:
+          type: integer
+        status:
+          type: string
+          enum: [completed, watching, plan_to_watch, dropped]
+
+    VaultStats:
+      type: object
+      properties:
+        totalAnime:
+          type: integer
+        totalSeries:
+          type: integer
+        totalItems:
+          type: integer
+        averageRating:
+          type: ["number", "null"]
+        highestRated:
+          $ref: "#/components/schemas/MediaItem"
+        totalCompleted:
+          type: integer
+        totalWatching:
+          type: integer
+        totalPlanToWatch:
+          type: integer
+        favoriteCount:
+          type: integer
+        ratingDistribution:
+          type: array
+          items:
+            $ref: "#/components/schemas/RatingBucket"
+        genreBreakdown:
+          type: array
+          items:
+            $ref: "#/components/schemas/GenreCount"
+      required:
+        - totalAnime
+        - totalSeries
+        - totalItems
+        - totalCompleted
+        - totalWatching
+        - totalPlanToWatch
+        - favoriteCount
+        - ratingDistribution
+        - genreBreakdown
+
+    RatingBucket:
+      type: object
+      properties:
+        range:
+          type: string
+        count:
+          type: integer
+      required:
+        - range
+        - count
+
+    GenreCount:
+      type: object
+      properties:
+        genre:
+          type: string
+        count:
+          type: integer
+      required:
+        - genre
+        - count
