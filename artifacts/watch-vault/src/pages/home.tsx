@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Star, TrendingUp, Tv, Film, PlayCircle } from "lucide-react";
+import { Star, TrendingUp, Tv, Film, PlayCircle, User } from "lucide-react";
 import { useGetTopMedia, useGetStats } from "@workspace/api-client-react";
 import { MediaCard, MediaCardSkeleton } from "@/components/MediaCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+
+// ─── Replace this with your own photo URL ───────────────────────────────────
+const AMAN_PHOTO_URL = "";
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   const { data: topMedia, isLoading: isLoadingTop } = useGetTopMedia({ limit: 10 });
@@ -16,94 +20,143 @@ export default function Home() {
   return (
     <div className="w-full flex flex-col pb-20">
       {/* Hero Section */}
-      <section className="relative min-h-[88vh] w-full bg-background flex items-center overflow-hidden">
-        {/* Subtle background: faint poster behind everything */}
+      <section className="relative min-h-[90vh] w-full bg-background flex items-center overflow-hidden">
+        {/* Faint background texture from highest-rated poster */}
         {heroItem && (
           <div className="absolute inset-0 z-0 pointer-events-none">
             <img
               src={heroItem.banner || heroItem.poster || ""}
               alt=""
-              className="w-full h-full object-cover opacity-[0.07]"
+              className="w-full h-full object-cover opacity-[0.06]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/50" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/60" />
           </div>
         )}
 
-        <div className="container mx-auto px-4 z-10 relative flex flex-col items-start justify-center py-24">
-          {/* Identity-first hero */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="max-w-3xl"
-          >
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-ring font-semibold tracking-[0.25em] text-sm uppercase mb-5"
-            >
-              Aman's Watch Vault
-            </motion.p>
+        <div className="container mx-auto px-4 z-10 relative py-20">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-6 text-white">
-              Every story
-              <br />
-              <span className="text-ring">I've lived inside.</span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-gray-400 mb-10 leading-relaxed max-w-xl">
-              Rated, reviewed, and ranked — a quiet archive for the anime and series that stayed with me long after the credits rolled.
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Link href="/browse">
-                <Button size="lg" className="h-12 px-8 text-base font-bold">
-                  Browse the Vault
-                </Button>
-              </Link>
-              <Link href="/favorites">
-                <Button size="lg" variant="outline" className="h-12 px-8 text-base font-bold bg-white/5 backdrop-blur-sm border-white/15 hover:bg-white/10 text-white">
-                  View Favorites
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Featured: Highest rated — secondary, below the identity */}
-          {heroItem && (
+            {/* LEFT — Identity text */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
-              className="mt-16 flex items-center gap-5 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm px-6 py-4 max-w-lg"
+              transition={{ duration: 0.9, ease: "easeOut" }}
+              className="flex-1 max-w-2xl order-2 lg:order-1"
             >
-              {heroItem.poster && (
-                <img
-                  src={heroItem.poster}
-                  alt={heroItem.title}
-                  className="w-14 h-20 object-cover rounded-lg shrink-0 shadow-lg"
-                />
-              )}
-              <div className="flex flex-col gap-1 min-w-0">
-                <span className="text-xs text-ring font-semibold tracking-widest uppercase flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-current" />
-                  Highest Rated
-                </span>
-                <Link href={`/media/${heroItem.id}`}>
-                  <span className="text-white font-bold text-lg leading-tight hover:text-ring transition-colors cursor-pointer truncate block">
-                    {heroItem.title}
-                  </span>
+              {/* The name — big, proud, impossible to miss */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.8 }}
+                className="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.95] tracking-tight mb-4"
+              >
+                <span className="text-white">Aman's</span>
+                <br />
+                <span className="text-ring">Watch</span>
+                <br />
+                <span className="text-white">Vault.</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.7 }}
+                className="text-base md:text-lg text-gray-400 mb-10 leading-relaxed max-w-md"
+              >
+                Every series and anime I've lived inside — rated, reviewed, and ranked.
+                A quiet archive for the stories that stayed with me.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.55, duration: 0.6 }}
+                className="flex flex-wrap gap-4"
+              >
+                <Link href="/browse">
+                  <Button size="lg" className="h-12 px-8 text-base font-bold">
+                    Browse the Vault
+                  </Button>
                 </Link>
-                <span className="text-gray-400 text-sm">{heroItem.rating?.toFixed(1)}/10 · {heroItem.year}</span>
-              </div>
-              <Link href={`/media/${heroItem.id}`} className="ml-auto shrink-0">
-                <Button size="sm" variant="ghost" className="text-ring hover:text-ring hover:bg-ring/10">
-                  <PlayCircle className="w-5 h-5" />
-                </Button>
-              </Link>
+                <Link href="/favorites">
+                  <Button size="lg" variant="outline" className="h-12 px-8 text-base font-bold bg-white/5 backdrop-blur-sm border-white/15 hover:bg-white/10 text-white">
+                    View Favorites
+                  </Button>
+                </Link>
+              </motion.div>
+
+              {/* Highest Rated pill — subtle callout */}
+              {heroItem && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.75, duration: 0.6 }}
+                  className="mt-10 inline-flex items-center gap-4 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm px-5 py-3"
+                >
+                  {heroItem.poster && (
+                    <img
+                      src={heroItem.poster}
+                      alt={heroItem.title}
+                      className="w-10 h-14 object-cover rounded-md shrink-0 shadow-lg"
+                    />
+                  )}
+                  <div className="flex flex-col gap-0.5 min-w-0">
+                    <span className="text-[10px] text-ring font-bold tracking-widest uppercase flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-current" />
+                      Highest Rated
+                    </span>
+                    <Link href={`/media/${heroItem.id}`}>
+                      <span className="text-white font-bold text-sm leading-tight hover:text-ring transition-colors cursor-pointer truncate block">
+                        {heroItem.title}
+                      </span>
+                    </Link>
+                    <span className="text-gray-500 text-xs">{heroItem.rating?.toFixed(1)}/10 · {heroItem.year}</span>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
-          )}
+
+            {/* RIGHT — Personal photo portrait */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
+              className="order-1 lg:order-2 flex flex-col items-center gap-4 shrink-0"
+            >
+              {/* Glow ring + photo */}
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full bg-ring/20 blur-3xl scale-110 pointer-events-none" />
+                <div className="relative w-52 h-52 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-ring/40 overflow-hidden shadow-2xl bg-card">
+                  {AMAN_PHOTO_URL ? (
+                    <img
+                      src={AMAN_PHOTO_URL}
+                      alt="Aman"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-card to-card/50">
+                      <User className="w-16 h-16 text-ring/40" strokeWidth={1.5} />
+                      <span className="text-xs text-gray-600 text-center px-4 leading-relaxed">
+                        Add your photo URL in<br />
+                        <code className="text-ring/60 text-[10px]">home.tsx → AMAN_PHOTO_URL</code>
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {/* Decorative arc */}
+                <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-ring flex items-center justify-center shadow-lg shadow-ring/30">
+                  <Star className="w-4 h-4 text-black fill-black" />
+                </div>
+              </div>
+
+              <div className="text-center">
+                <p className="text-white font-bold text-lg tracking-wide">Aman</p>
+                <p className="text-gray-500 text-sm">Curator & Reviewer</p>
+              </div>
+            </motion.div>
+
+          </div>
         </div>
       </section>
 
