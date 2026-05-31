@@ -16,65 +16,95 @@ export default function Home() {
   return (
     <div className="w-full flex flex-col pb-20">
       {/* Hero Section */}
-      <section className="relative h-[80vh] min-h-[600px] w-full bg-background flex items-center overflow-hidden">
-        {heroItem ? (
-          <>
-            <div className="absolute inset-0 z-0">
-              <img 
-                src={heroItem.banner || heroItem.poster || ""} 
-                alt={heroItem.title}
-                className="w-full h-full object-cover opacity-40 blur-[2px]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
-            </div>
-            
-            <div className="container mx-auto px-4 z-10 relative">
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="max-w-2xl"
-              >
-                <div className="flex items-center gap-2 mb-4 text-ring font-bold tracking-widest text-sm uppercase">
-                  <Star className="w-4 h-4 fill-current" />
-                  <span>Highest Rated • {heroItem.rating?.toFixed(1)}/10</span>
-                </div>
-                <h1 className="text-5xl md:text-7xl font-black mb-4 text-white drop-shadow-lg leading-tight">
-                  {heroItem.title}
-                </h1>
-                <p className="text-lg md:text-xl text-gray-300 mb-8 line-clamp-3 leading-relaxed">
-                  {heroItem.synopsis || "An epic journey awaits in this top-rated masterpiece from Aman's curated vault."}
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link href={`/media/${heroItem.id}`}>
-                    <Button size="lg" className="h-12 px-8 text-lg font-bold">
-                      <PlayCircle className="w-5 h-5 mr-2" />
-                      View Details
-                    </Button>
-                  </Link>
-                  <Link href="/browse">
-                    <Button size="lg" variant="outline" className="h-12 px-8 text-lg font-bold bg-background/20 backdrop-blur-sm border-white/20 hover:bg-white/10 text-white">
-                      Browse Vault
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
-          </>
-        ) : (
-          <div className="container mx-auto px-4 z-10 relative flex items-center h-full">
-            <div className="max-w-2xl space-y-4">
-              <Skeleton className="h-6 w-40" />
-              <Skeleton className="h-20 w-full" />
-              <Skeleton className="h-20 w-3/4" />
-              <div className="flex gap-4 pt-4">
-                <Skeleton className="h-12 w-40" />
-                <Skeleton className="h-12 w-40" />
-              </div>
-            </div>
+      <section className="relative min-h-[88vh] w-full bg-background flex items-center overflow-hidden">
+        {/* Subtle background: faint poster behind everything */}
+        {heroItem && (
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <img
+              src={heroItem.banner || heroItem.poster || ""}
+              alt=""
+              className="w-full h-full object-cover opacity-[0.07]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
           </div>
         )}
+
+        <div className="container mx-auto px-4 z-10 relative flex flex-col items-start justify-center py-24">
+          {/* Identity-first hero */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="max-w-3xl"
+          >
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-ring font-semibold tracking-[0.25em] text-sm uppercase mb-5"
+            >
+              Aman's Watch Vault
+            </motion.p>
+
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-6 text-white">
+              Every story
+              <br />
+              <span className="text-ring">I've lived inside.</span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-gray-400 mb-10 leading-relaxed max-w-xl">
+              Rated, reviewed, and ranked — a quiet archive for the anime and series that stayed with me long after the credits rolled.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <Link href="/browse">
+                <Button size="lg" className="h-12 px-8 text-base font-bold">
+                  Browse the Vault
+                </Button>
+              </Link>
+              <Link href="/favorites">
+                <Button size="lg" variant="outline" className="h-12 px-8 text-base font-bold bg-white/5 backdrop-blur-sm border-white/15 hover:bg-white/10 text-white">
+                  View Favorites
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Featured: Highest rated — secondary, below the identity */}
+          {heroItem && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.7 }}
+              className="mt-16 flex items-center gap-5 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm px-6 py-4 max-w-lg"
+            >
+              {heroItem.poster && (
+                <img
+                  src={heroItem.poster}
+                  alt={heroItem.title}
+                  className="w-14 h-20 object-cover rounded-lg shrink-0 shadow-lg"
+                />
+              )}
+              <div className="flex flex-col gap-1 min-w-0">
+                <span className="text-xs text-ring font-semibold tracking-widest uppercase flex items-center gap-1">
+                  <Star className="w-3 h-3 fill-current" />
+                  Highest Rated
+                </span>
+                <Link href={`/media/${heroItem.id}`}>
+                  <span className="text-white font-bold text-lg leading-tight hover:text-ring transition-colors cursor-pointer truncate block">
+                    {heroItem.title}
+                  </span>
+                </Link>
+                <span className="text-gray-400 text-sm">{heroItem.rating?.toFixed(1)}/10 · {heroItem.year}</span>
+              </div>
+              <Link href={`/media/${heroItem.id}`} className="ml-auto shrink-0">
+                <Button size="sm" variant="ghost" className="text-ring hover:text-ring hover:bg-ring/10">
+                  <PlayCircle className="w-5 h-5" />
+                </Button>
+              </Link>
+            </motion.div>
+          )}
+        </div>
       </section>
 
       {/* Stats Bar */}
