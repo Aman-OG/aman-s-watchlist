@@ -1,13 +1,16 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Layout } from "@/components/Layout";
-import Home from "@/pages/Home";
-import Anime from "@/pages/Anime";
-import Series from "@/pages/Series";
-import Favorites from "@/pages/Favorites";
-import Stats from "@/pages/Stats";
-import Detail from "@/pages/Detail";
-import NotFound from "@/pages/NotFound";
+
+import Home from "@/pages/home";
+import Anime from "@/pages/anime";
+import Series from "@/pages/series";
+import Favorites from "@/pages/favorites";
+import Stats from "@/pages/stats";
+import MediaDetail from "@/pages/media-detail";
+import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
@@ -18,19 +21,24 @@ function Router() {
         <Route path="/series" component={Series} />
         <Route path="/favorites" component={Favorites} />
         <Route path="/stats" component={Stats} />
-        <Route path="/title/:id" component={Detail} />
+        <Route path="/media/:id" component={MediaDetail} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
   );
 }
 
-export default function App() {
+function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vault-theme">
-      <WouterRouter>
-        <Router />
-      </WouterRouter>
+      <TooltipProvider>
+        <WouterRouter>
+          <Router />
+        </WouterRouter>
+        <Toaster />
+      </TooltipProvider>
     </ThemeProvider>
   );
 }
+
+export default App;

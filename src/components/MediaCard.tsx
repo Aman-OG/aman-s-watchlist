@@ -2,14 +2,14 @@ import React from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Star, Tv, Film } from "lucide-react";
-import type { WatchItem } from "@/types";
+import type { MediaItem } from "@/types";
 import { Badge } from "./ui/badge";
 
-export function MediaCard({ item, index = 0 }: { item: WatchItem; index?: number }) {
+export function MediaCard({ item, index = 0 }: { item: MediaItem; index?: number }) {
   const [imgError, setImgError] = React.useState(false);
 
   return (
-    <Link href={`/title/${item.id}`} className="block group">
+    <Link href={`/media/${item.id}`} className="block group">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -32,14 +32,14 @@ export function MediaCard({ item, index = 0 }: { item: WatchItem; index?: number
             </div>
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
           <div className="absolute top-2 right-2 flex flex-col gap-1">
-            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm border-none shadow-sm uppercase text-[10px] tracking-widest font-bold">
+            <Badge variant="secondary" className="bg-black/60 dark:bg-background/80 backdrop-blur-sm border-none shadow-sm uppercase text-[10px] tracking-widest font-bold text-white">
               {item.type}
             </Badge>
             {item.status && (
-              <Badge variant="outline" className="bg-background/80 backdrop-blur-sm border-none shadow-sm capitalize text-[10px]">
+              <Badge variant="outline" className="bg-black/60 dark:bg-background/80 backdrop-blur-sm border-none shadow-sm capitalize text-[10px] text-white">
                 {item.status.replace(/_/g, " ")}
               </Badge>
             )}

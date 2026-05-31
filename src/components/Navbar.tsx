@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useTheme } from "./ThemeProvider";
 import { Moon, Sun, Tv, Film, Home, Heart, BarChart3, Menu } from "lucide-react";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "./ui/sheet";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -11,8 +11,8 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home", icon: <Home className="w-4 h-4 mr-2" /> },
-    { href: "/anime", label: "Anime", icon: <Tv className="w-4 h-4 mr-2" /> },
     { href: "/series", label: "Series", icon: <Film className="w-4 h-4 mr-2" /> },
+    { href: "/anime", label: "Anime", icon: <Tv className="w-4 h-4 mr-2" /> },
     { href: "/favorites", label: "Favorites", icon: <Heart className="w-4 h-4 mr-2" /> },
     { href: "/stats", label: "Stats", icon: <BarChart3 className="w-4 h-4 mr-2" /> },
   ];
@@ -60,6 +60,10 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[250px] bg-background/95 backdrop-blur-md border-border/40">
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              <SheetDescription className="sr-only">
+                Navigate to different sections of the watch vault
+              </SheetDescription>
               <div className="flex flex-col gap-6 mt-8">
                 {navLinks.map((link) => (
                   <Link

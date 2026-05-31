@@ -2,28 +2,17 @@ import React from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Star, TrendingUp, Tv, Film, User } from "lucide-react";
-import { allItems } from "@/hooks/useWatchlist";
+import { useTopMedia, useStats } from "@/hooks/useWatchlist";
 import { MediaCard } from "@/components/MediaCard";
 import { Button } from "@/components/ui/button";
 
 // ─── Replace this with your own photo URL ───────────────────────────────────
-const AMAN_PHOTO_URL = "";
+const AMAN_PHOTO_URL = "/aman-photo.jpg";
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
-  const topMedia = [...allItems]
-    .filter((i) => i.rating != null)
-    .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
-    .slice(0, 10);
-
-  const anime = allItems.filter((i) => i.type === "anime");
-  const series = allItems.filter((i) => i.type === "series");
-  const rated = allItems.filter((i) => i.rating != null);
-  const avgRating = rated.length
-    ? rated.reduce((s, i) => s + i.rating, 0) / rated.length
-    : 0;
-  const completed = allItems.filter((i) => i.status === "completed");
-
+  const topMedia = useTopMedia(10);
+  const stats = useStats();
   const heroItem = topMedia[0];
 
   return (
@@ -44,7 +33,7 @@ export default function Home() {
         )}
 
         <div className="container mx-auto px-4 z-10 relative py-20">
-          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-16 lg:gap-32">
 
             {/* LEFT — Identity text */}
             <motion.div
@@ -58,23 +47,19 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.8 }}
-                className="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.95] tracking-tight mb-4"
+                className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight mb-6"
               >
-                <span className="text-white">Aman's</span>
-                <br />
-                <span className="text-ring">Watch</span>
-                <br />
-                <span className="text-white">Vault.</span>
+                <span className="text-foreground">Aman's </span>
+                <span className="text-ring">Watchlist</span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
-                className="text-base md:text-lg text-gray-400 mb-10 leading-relaxed max-w-md"
+                className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed max-w-2xl"
               >
-                Every series and anime I've lived inside — rated, reviewed, and ranked.
-                A quiet archive for the stories that stayed with me.
+                A personal archive of every series and anime I've watched, rated, and remembered over the years.
               </motion.p>
 
               <motion.div
@@ -83,48 +68,17 @@ export default function Home() {
                 transition={{ delay: 0.55, duration: 0.6 }}
                 className="flex flex-wrap gap-4"
               >
-                <Link href="/anime">
-                  <Button size="lg" className="h-12 px-8 text-base font-bold">
-                    Browse Anime
-                  </Button>
-                </Link>
                 <Link href="/series">
-                  <Button size="lg" variant="outline" className="h-12 px-8 text-base font-bold bg-white/5 backdrop-blur-sm border-white/15 hover:bg-white/10 text-white">
+                  <Button size="lg" className="h-12 px-8 text-base font-bold">
                     Browse Series
                   </Button>
                 </Link>
+                <Link href="/anime">
+                  <Button size="lg" variant="outline" className="h-12 px-8 text-base font-bold bg-background/5 backdrop-blur-sm border-border hover:bg-accent">
+                    Browse Anime
+                  </Button>
+                </Link>
               </motion.div>
-
-              {/* Highest Rated pill — subtle callout */}
-              {heroItem && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.75, duration: 0.6 }}
-                  className="mt-10 inline-flex items-center gap-4 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm px-5 py-3"
-                >
-                  {heroItem.poster && (
-                    <img
-                      src={heroItem.poster}
-                      alt={heroItem.title}
-                      className="w-10 h-14 object-cover rounded-md shrink-0 shadow-lg"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                  )}
-                  <div className="flex flex-col gap-0.5 min-w-0">
-                    <span className="text-[10px] text-ring font-bold tracking-widest uppercase flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-current" />
-                      Highest Rated
-                    </span>
-                    <Link href={`/title/${heroItem.id}`}>
-                      <span className="text-white font-bold text-sm leading-tight hover:text-ring transition-colors cursor-pointer truncate block">
-                        {heroItem.title}
-                      </span>
-                    </Link>
-                    <span className="text-gray-500 text-xs">{heroItem.rating?.toFixed(1)}/10 · {heroItem.year}</span>
-                  </div>
-                </motion.div>
-              )}
             </motion.div>
 
             {/* RIGHT — Personal photo portrait */}
@@ -149,20 +103,20 @@ export default function Home() {
                       <User className="w-16 h-16 text-ring/40" strokeWidth={1.5} />
                       <span className="text-xs text-gray-600 text-center px-4 leading-relaxed">
                         Add your photo URL in<br />
-                        <code className="text-ring/60 text-[10px]">Home.tsx → AMAN_PHOTO_URL</code>
+                        <code className="text-ring/60 text-[10px]">src/pages/home.tsx → AMAN_PHOTO_URL</code>
                       </span>
                     </div>
                   )}
                 </div>
                 {/* Decorative arc */}
                 <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-ring flex items-center justify-center shadow-lg shadow-ring/30">
-                  <Star className="w-4 h-4 text-black fill-black" />
+                  <Star className="w-4 h-4 text-white fill-white" />
                 </div>
               </div>
 
               <div className="text-center">
-                <p className="text-white font-bold text-lg tracking-wide">Aman</p>
-                <p className="text-gray-500 text-sm">Curator & Reviewer</p>
+                <p className="text-foreground font-bold text-lg tracking-wide">Aman</p>
+                <p className="text-muted-foreground text-sm">Curator & Reviewer</p>
               </div>
             </motion.div>
 
@@ -175,12 +129,12 @@ export default function Home() {
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 divide-x divide-border/40">
             {[
-              { label: "Total Anime", value: anime.length, icon: <Tv className="w-5 h-5 text-ring" /> },
-              { label: "Total Series", value: series.length, icon: <Film className="w-5 h-5 text-ring" /> },
-              { label: "Avg Rating", value: avgRating.toFixed(1), icon: <Star className="w-5 h-5 text-ring" /> },
-              { label: "Completed", value: completed.length, icon: <TrendingUp className="w-5 h-5 text-ring" /> },
+              { label: "Total Series", value: stats.totalSeries, icon: <Film className="w-5 h-5 text-ring" /> },
+              { label: "Total Anime", value: stats.totalAnime, icon: <Tv className="w-5 h-5 text-ring" /> },
+              { label: "Avg Rating", value: stats.averageRating.toFixed(1), icon: <Star className="w-5 h-5 text-ring" /> },
+              { label: "Completed", value: stats.totalCompleted, icon: <TrendingUp className="w-5 h-5 text-ring" /> }
             ].map((stat, i) => (
-              <motion.div
+              <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -191,7 +145,7 @@ export default function Home() {
                   {stat.icon}
                   {stat.label}
                 </div>
-                <div className="text-3xl font-black">{stat.value}</div>
+                <div className="text-3xl font-black">{stat.value || 0}</div>
               </motion.div>
             ))}
           </div>
@@ -208,13 +162,10 @@ export default function Home() {
             </h2>
             <p className="text-muted-foreground text-lg">The absolute best from the vault.</p>
           </div>
-          <Link href="/favorites" className="text-primary font-bold hover:underline">
-            View Favorites →
-          </Link>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {topMedia.map((item, i) => (
+          {topMedia.slice(0, 10).map((item, i) => (
             <MediaCard key={item.id} item={item} index={i} />
           ))}
         </div>

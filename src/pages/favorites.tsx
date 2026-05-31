@@ -1,10 +1,10 @@
 import React from "react";
-import { allItems } from "@/hooks/useWatchlist";
+import { useFavorites } from "@/hooks/useWatchlist";
 import { MediaCard } from "@/components/MediaCard";
 import { Heart } from "lucide-react";
 
 export default function Favorites() {
-  const favorites = allItems.filter((i) => i.favorite === true);
+  const favorites = useFavorites();
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -24,7 +24,7 @@ export default function Favorites() {
             <div className="text-muted-foreground mb-4">
               <Heart className="w-16 h-16 mx-auto mb-6 opacity-20" />
               <h3 className="text-2xl font-bold mb-2 text-foreground">No favorites yet</h3>
-              <p className="text-lg">Mark items as favorite in the data to see them in this prestige gallery.</p>
+              <p className="text-lg">Mark items as favorite in the JSON file to see them here.</p>
             </div>
           </div>
         ) : (
