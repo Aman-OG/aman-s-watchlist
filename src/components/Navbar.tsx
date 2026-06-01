@@ -22,7 +22,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
           <Tv className="w-6 h-6 text-primary" />
-          <span>Aman's Vault</span>
+          <span>Aman's Watchlist</span>
         </Link>
 
         {/* Desktop Nav */}
