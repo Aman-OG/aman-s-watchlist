@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from 
 export function Navbar() {
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const navLinks = [
     { href: "/", label: "Home", icon: <Home className="w-4 h-4 mr-2" /> },
@@ -20,6 +21,12 @@ export function Navbar() {
   const handleNavClick = () => {
     // Clear scroll position when navigating via navbar
     // This ensures navbar navigation always goes to top of page
+    window.scrollTo(0, 0);
+  };
+
+  const handleMobileNavClick = () => {
+    // Close mobile menu and scroll to top
+    setIsOpen(false);
     window.scrollTo(0, 0);
   };
 
@@ -60,7 +67,7 @@ export function Navbar() {
           </Button>
 
           {/* Mobile Nav */}
-          <Sheet>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
@@ -76,7 +83,7 @@ export function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={handleNavClick}
+                    onClick={handleMobileNavClick}
                     className={`flex items-center text-lg font-medium transition-colors hover:text-ring ${
                       location === link.href ? "text-foreground dark:text-ring font-extrabold" : "text-muted-foreground"
                     }`}
