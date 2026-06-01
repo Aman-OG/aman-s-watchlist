@@ -27,7 +27,7 @@ export default function Favorites() {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-0 leading-tight">
             The ones I'd
           </h1>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 text-ring leading-tight whitespace-nowrap">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 text-ring leading-tight">
             defend with my life.
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl leading-relaxed font-medium">
