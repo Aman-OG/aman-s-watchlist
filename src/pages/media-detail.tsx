@@ -13,14 +13,33 @@ export default function MediaDetail() {
   
   const media = useMediaById(id);
 
-  console.log("Media Detail - ID:", id, "Media found:", !!media);
+  const handleBack = () => {
+    // Get the referrer from session storage
+    const referrer = sessionStorage.getItem('mediaDetailReferrer');
+    
+    if (referrer && referrer !== '/') {
+      // Go back to the referrer page
+      setLocation(referrer);
+      
+      // Restore scroll position after a short delay
+      setTimeout(() => {
+        const scrollPos = sessionStorage.getItem(`scrollPos_${referrer}`);
+        if (scrollPos) {
+          window.scrollTo(0, parseInt(scrollPos, 10));
+        }
+      }, 50);
+    } else {
+      // Default to home if no referrer
+      setLocation("/");
+    }
+  };
 
   if (!media) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
         <h2 className="text-3xl font-bold mb-4">Media not found</h2>
         <p className="text-muted-foreground mb-4">Looking for ID: {id}</p>
-        <Button onClick={() => setLocation("/")}>Back to Home</Button>
+        <Button onClick={handleBack}>Back</Button>
       </div>
     );
   }
@@ -40,7 +59,7 @@ export default function MediaDetail() {
         </div>
         
         <div className="container mx-auto px-4 relative z-10 h-full flex items-start pt-6">
-          <Button variant="ghost" className="text-white hover:bg-white/20 bg-black/20 backdrop-blur-md" onClick={() => setLocation("/")}>
+          <Button variant="ghost" className="text-white hover:bg-white/20 bg-black/20 backdrop-blur-md" onClick={handleBack}>
             <ChevronLeft className="w-4 h-4 mr-2" />
             Back
           </Button>

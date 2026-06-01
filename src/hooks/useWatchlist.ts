@@ -121,17 +121,17 @@ export function useStats(): Stats {
 
     // Rating distribution
     const ratingBuckets = [
-      { range: "0-2", min: 0, max: 2 },
-      { range: "3-4", min: 3, max: 4 },
-      { range: "5-6", min: 5, max: 6 },
-      { range: "7-8", min: 7, max: 8 },
+      { range: "0-2", min: 0, max: 2.99 },
+      { range: "3-4", min: 3, max: 4.99 },
+      { range: "5-6", min: 5, max: 6.99 },
+      { range: "7-8", min: 7, max: 8.99 },
       { range: "9-10", min: 9, max: 10 },
     ];
 
     const ratingDistribution = ratingBuckets.map((bucket) => ({
       range: bucket.range,
       count: watchlist.filter(
-        (item) => item.rating >= bucket.min && item.rating <= bucket.max
+        (item) => item.rating > 0 && item.rating >= bucket.min && item.rating <= bucket.max
       ).length,
     }));
 

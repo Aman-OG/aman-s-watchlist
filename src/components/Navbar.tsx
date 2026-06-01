@@ -17,10 +17,16 @@ export function Navbar() {
     { href: "/stats", label: "Stats", icon: <BarChart3 className="w-4 h-4 mr-2" /> },
   ];
 
+  const handleNavClick = () => {
+    // Clear scroll position when navigating via navbar
+    // This ensures navbar navigation always goes to top of page
+    window.scrollTo(0, 0);
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
+        <Link href="/" className="flex items-center gap-2 font-bold text-lg tracking-tight" onClick={handleNavClick}>
           <Tv className="w-6 h-6 text-primary" />
           <span>Aman's Watchlist</span>
         </Link>
@@ -31,8 +37,9 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center text-sm font-medium transition-colors hover:text-primary ${
-                location === link.href ? "text-primary" : "text-muted-foreground"
+              onClick={handleNavClick}
+              className={`flex items-center text-sm font-medium transition-colors hover:text-ring ${
+                location === link.href ? "text-foreground dark:text-ring font-extrabold" : "text-muted-foreground"
               }`}
             >
               {link.icon}
@@ -69,8 +76,9 @@ export function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center text-lg font-medium transition-colors hover:text-primary ${
-                      location === link.href ? "text-primary" : "text-muted-foreground"
+                    onClick={handleNavClick}
+                    className={`flex items-center text-lg font-medium transition-colors hover:text-ring ${
+                      location === link.href ? "text-foreground dark:text-ring font-extrabold" : "text-muted-foreground"
                     }`}
                   >
                     {link.icon}

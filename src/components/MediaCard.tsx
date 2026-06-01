@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Star, Tv, Film } from "lucide-react";
 import type { MediaItem } from "@/types";
@@ -7,9 +7,16 @@ import { Badge } from "./ui/badge";
 
 export function MediaCard({ item, index = 0 }: { item: MediaItem; index?: number }) {
   const [imgError, setImgError] = React.useState(false);
+  const [location] = useLocation();
+
+  const handleClick = () => {
+    // Save current page and scroll position
+    sessionStorage.setItem('mediaDetailReferrer', location);
+    sessionStorage.setItem(`scrollPos_${location}`, window.scrollY.toString());
+  };
 
   return (
-    <Link href={`/media/${item.id}`} className="block group">
+    <Link href={`/media/${item.id}`} className="block group" onClick={handleClick}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

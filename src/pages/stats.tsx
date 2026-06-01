@@ -123,7 +123,24 @@ export default function Stats() {
                     paddingAngle={5}
                     dataKey="value"
                     stroke="none"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    label={(props) => {
+                      const { name, value } = props;
+                      const percentage = ((value / stats.totalItems) * 100).toFixed(1);
+                      // Only show decimal if it's not a whole number
+                      const displayPercentage = percentage.endsWith('.0') ? Math.round((value / stats.totalItems) * 100) : percentage;
+                      return (
+                        <text 
+                          x={props.x} 
+                          y={props.y} 
+                          fill="hsl(var(--foreground))" 
+                          textAnchor={props.midAngle < 0 ? 'start' : 'end'} 
+                          dominantBaseline="central"
+                          style={{ fontSize: '14px', fontWeight: '500' }}
+                        >
+                          {`${name} ${displayPercentage}%`}
+                        </text>
+                      );
+                    }}
                     labelLine={false}
                   >
                     {pieData.map((entry, index) => (
@@ -131,7 +148,8 @@ export default function Stats() {
                     ))}
                   </Pie>
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                    contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', borderRadius: '8px', color: 'hsl(var(--foreground))' }}
+                    itemStyle={{ color: 'hsl(var(--foreground))' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
