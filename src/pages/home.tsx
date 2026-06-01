@@ -125,7 +125,7 @@ export default function Home() {
       </section>
 
       {/* Stats Bar */}
-      <section className="border-y border-border/40 bg-card/30 backdrop-blur-md sticky top-16 z-40">
+      <section className="border-y border-border/40 bg-card/30 backdrop-blur-md">
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 divide-x divide-border/40">
             {[
